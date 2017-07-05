@@ -7,10 +7,14 @@ import {
   Keyboard,
   Button,
   ScrollView,
+  Image,
 } from 'react-native';
 import {
   Link,
 } from 'react-router-native';
+
+const backArrowImage = require('./img/left-arrow.png' );
+const infoIcon = require('./img/info-icon.png' );
 
 const styles = StyleSheet.create({
   container: {
@@ -20,32 +24,67 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   username: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   me: {
     marginTop: 10,
     alignSelf: 'flex-end',
-    backgroundColor: '#F8F9FA',
-    overflow: 'hidden',
-    borderRadius: 10,
+    overflow: 'visible',
+    position: 'relative'
   },
   friend: {
     marginTop: 10,
     alignSelf: 'flex-start',
-    backgroundColor: '#ADB5BC',
-    overflow: 'hidden',
-    borderRadius: 10,
+    overflow: 'visible',
+    position: 'relative'
   },
   textMe: {
     fontSize: 16,
     color: '#484E55',
-    padding: 10,
+    padding: 14,
+    backgroundColor: '#F8F9FA',
+    borderRadius: 5,
+    overflow: 'hidden'
+  },
+  arrowMe: {
+    width: 0,
+    height: 0,
+    borderTopColor: 'transparent',
+    borderTopWidth: 6,
+    borderBottomColor: 'transparent',
+    borderBottomWidth: 6,
+    borderLeftColor: '#F8F9FA',
+    borderLeftWidth: 6,
+    position: 'absolute',
+    top: '50%',
+    right: -4,
+    zIndex: 1,
+    marginTop: -6
   },
   textFriend: {
     fontSize: 16,
     color: '#fff',
     borderRadius: 10,
-    padding: 10,
+    padding: 14,
+    backgroundColor: '#ADB5BC',
+    borderRadius: 5,
+    overflow: 'hidden'
+  },
+  arrowFriend: {
+    width: 0,
+    height: 0,
+    borderTopColor: 'transparent',
+    borderTopWidth: 6,
+    borderBottomColor: 'transparent',
+    borderBottomWidth: 6,
+    borderRightColor: '#ADB5BC',
+    borderRightWidth: 6,
+    position: 'absolute',
+    top: '50%',
+    left: -4,
+    zIndex: 1,
+    marginTop: -6
   },
   avatar: {
     height: 40,
@@ -55,20 +94,33 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderTopColor: 'gray',
+    borderTopColor: '#868E95',
     flex: 1,
   },
-  send: {
-    color: 'gray',
-  },
   back: {
-    paddingLeft: 20,
+    paddingLeft: 10,
+  },
+  backArrow: {
+    width: 13,
+    height: 23,
+  },
+  infoIcon: {
+    width: 23,
+    height: 23,
+    marginRight: 10,
+  },
+  username: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    alignSelf: 'auto',
   },
   header: {
     right: 0,
-    height: 40,
     paddingTop: 10,
+    paddingBottom: 10,
     backgroundColor: '#868E95',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   footer: {
     flex: 1,
@@ -87,6 +139,14 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 20,
   },
+  dateHolder: {
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  date: {
+    color: '#868E95',
+  }
 });
 
 class Chat extends Component {
@@ -159,8 +219,10 @@ class Chat extends Component {
   renderRow(message, index) {
     const viewStyle = message.type === 'me' ? styles.me : styles.friend;
     const textStyle = message.type === 'me' ? styles.textMe : styles.textFriend;
+    const arrowStyle = message.type === 'me' ? styles.arrowMe : styles.arrowFriend;
     return (
       <View style={viewStyle} key={index}>
+        <View style={arrowStyle} />
         <Text style={textStyle}>{message.message}</Text>
       </View>
     );
@@ -170,7 +232,14 @@ class Chat extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Link style={styles.back} to="/conversations"><Text> back </Text></Link>
+          <Link style={styles.back} to="/conversations">
+            <Image style={styles.backArrow} source={ backArrowImage } />
+          </Link>
+          <Text style={styles.username}>Username</Text>
+          <Image style={styles.infoIcon} source={ infoIcon } />
+        </View>
+        <View style={styles.dateHolder}>
+          <Text style={styles.date}>Today At 7:15 AM</Text>
         </View>
         <ScrollView
           style={[styles.scrollView, { marginBottom: this.state.marginBottom }]}
@@ -195,7 +264,7 @@ class Chat extends Component {
             value={this.state.text}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Button style={styles.send} onPress={this.onSend} title="Send" />
+          <Button color="#868E95" onPress={this.onSend} title="Send"/>
         </View>
       </View>
     );
