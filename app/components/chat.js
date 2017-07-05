@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   username: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   me: {
     marginTop: 10,
@@ -93,11 +94,8 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderTopColor: 'gray',
+    borderTopColor: '#868E95',
     flex: 1,
-  },
-  send: {
-    color: 'gray',
   },
   back: {
     paddingLeft: 10,
@@ -147,7 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   date: {
-    color: '#868E95'
+    color: '#868E95',
   }
 });
 
@@ -266,7 +264,7 @@ class Chat extends Component {
             value={this.state.text}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Button style={styles.send} onPress={this.onSend} title="Send" />
+          <Button color="#868E95" onPress={this.onSend} title="Send"/>
         </View>
       </View>
     );
